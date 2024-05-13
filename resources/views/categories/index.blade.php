@@ -25,7 +25,7 @@
                                         <form method="POST" action="{{ route('categories.destroy', $category) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"
+                                            <button type="submit" class="btn btn-inverse-warning"
                                                 onclick="return confirm ('Are you sure you want to delete this category this will also delete the related posts?')">Delete</button>
                                         </form>
                                     </td>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -29,16 +30,25 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    /* public function store(Request $request)
     {
+        $request->validate([
+            "title" => ['required'],
+            'text' => ['required'],
+            'category_id' => ['required'],
+        ]);
+
         Post::create([
             'title' => $request->input('title'),
             'text' => $request->input('text'),
             'category_id' => $request->input('category_id')
         ]);
-        return redirect()->route('posts.index')->with('success', '');
+        return redirect()->route('posts.index');
+    } */
+    public function store(StorePostRequest $request)
+    {
+        Post::create($request->validated());
     }
-
     /**
      * Display the specified resource.
      */
