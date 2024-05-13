@@ -30,6 +30,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required'],
+        ]);
         Category::create(['name' => $request->input('name')]);
 
         return redirect()->route('categories.index');
@@ -56,6 +59,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $request->validate([
+            'name' => ['required'],
+        ]);
         $category->update(['name' => $request->input('name')]);
         return redirect()->route('categories.index')->with('success', '');
     }
