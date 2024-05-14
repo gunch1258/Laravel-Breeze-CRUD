@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -47,7 +48,15 @@ class PostController extends Controller
     } */
     public function store(StorePostRequest $request)
     {
-        Post::create($request->validated());
+        $post = Post::create($request->validated());
+        if ($post instanceof Model) {
+            toastr()->success('Post successfully created!');
+            return redirect()->route('posts.index');
+        }
+        toastr()->error('An error has occurred please try again later.');
+
+        return back();
+
     }
     /**
      * Display the specified resource.
@@ -76,7 +85,13 @@ class PostController extends Controller
             'text' => $request->input('text'),
             'category_id' => $request->input('category_id')
         ]);
-        return redirect()->route('posts.index');
+        if ($post instanceof Model) {
+            toastr()->success('Post successfully updated!');
+
+            return redirect()->route('posts.index');
+        }
+        toastr()->error('An error has occurred please try again later.');
+        return back();
     }
 
     /**
@@ -85,6 +100,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
+        toastr()->success('Post has been deleted successfully!');
         return redirect()->route('posts.index');
     }
 }
