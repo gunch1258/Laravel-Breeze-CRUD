@@ -26,6 +26,7 @@ class PostController extends Controller
     {
         $categories = Category::all();
         return view("posts.create", compact("categories"));
+
     }
 
     /**
@@ -86,7 +87,7 @@ class PostController extends Controller
             'category_id' => $request->input('category_id')
         ]);
         if ($post instanceof Model) {
-            toastr()->success('Post successfully updated!');
+            toastr()->info('Post successfully updated!', [], 'Updated');
 
             return redirect()->route('posts.index');
         }
@@ -100,7 +101,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        toastr()->success('Post has been deleted successfully!');
+        toastr()->error('Post has been deleted successfully!', [], 'Deleted');
         return redirect()->route('posts.index');
     }
 }
